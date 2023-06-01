@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-05-2023 a las 23:33:44
+-- Tiempo de generación: 28-05-2023 a las 05:21:01
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.0.28
 
@@ -36,6 +36,13 @@ CREATE TABLE `clientes` (
   `domicilioCliente` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` (`idCliente`, `nombreCliente`, `CUIL_CUIT`, `DNI`, `telefonoCliente`, `domicilioCliente`) VALUES
+(2, 'Brenda', 27458963125, 45896312, 2147483647, 'republica');
+
 -- --------------------------------------------------------
 
 --
@@ -46,8 +53,17 @@ CREATE TABLE `contratacion` (
   `idContratacion` int(11) NOT NULL,
   `fechaInicioContratacion` date NOT NULL,
   `fechaFinContratacion` date DEFAULT NULL,
-  `idUsuario` int(11) NOT NULL
+  `idUsuarioAdmin` int(11) NOT NULL,
+  `idUsuarioEmpleado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `contratacion`
+--
+
+INSERT INTO `contratacion` (`idContratacion`, `fechaInicioContratacion`, `fechaFinContratacion`, `idUsuarioAdmin`, `idUsuarioEmpleado`) VALUES
+(1, '2023-05-02', NULL, 3, 4),
+(2, '2023-05-01', '2023-05-31', 5, 3);
 
 -- --------------------------------------------------------
 
@@ -134,6 +150,13 @@ CREATE TABLE `mediopago` (
   `descripcionMedioPago` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `mediopago`
+--
+
+INSERT INTO `mediopago` (`idMedioPago`, `descripcionMedioPago`) VALUES
+(1, 'contado');
+
 -- --------------------------------------------------------
 
 --
@@ -164,6 +187,13 @@ CREATE TABLE `proveedores` (
   `telefonoProveedor` int(15) NOT NULL,
   `domicilioProveedor` varchar(120) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `proveedores`
+--
+
+INSERT INTO `proveedores` (`idProveedor`, `nombreProveedor`, `CUIL_CUIT`, `DNI`, `telefonoProveedor`, `domicilioProveedor`) VALUES
+(1, 'Brenda', 27458963125, 45896312, 2147483647, 'republica');
 
 -- --------------------------------------------------------
 
@@ -220,6 +250,13 @@ CREATE TABLE `tipofactura` (
   `descripcion` varchar(80) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `tipofactura`
+--
+
+INSERT INTO `tipofactura` (`idTipoFactura`, `descripcion`) VALUES
+(1, 'FACTURA A');
+
 -- --------------------------------------------------------
 
 --
@@ -238,7 +275,7 @@ CREATE TABLE `tipousuario` (
 
 INSERT INTO `tipousuario` (`idTipoUsuario`, `descripcionTipoUsuario`, `idTipoEmpleado`) VALUES
 (1, 'administrador', NULL),
-(2, 'empleado', 1);
+(2, 'empleado', 3);
 
 -- --------------------------------------------------------
 
@@ -252,10 +289,20 @@ CREATE TABLE `usuarios` (
   `CUIL_CUIT` bigint(13) NOT NULL,
   `nombre` varchar(80) NOT NULL,
   `domicilio` varchar(120) NOT NULL,
+  `telefono` int(15) NOT NULL,
   `usuario` varchar(45) NOT NULL,
   `clave` varchar(45) NOT NULL,
   `idTipoUsuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`idUsuario`, `DNI`, `CUIL_CUIT`, `nombre`, `domicilio`, `telefono`, `usuario`, `clave`, `idTipoUsuario`) VALUES
+(3, 44923092, 27449230928, 'brenda', 'no tengo', 0, 'bren', '1234', 2),
+(4, 45678901, 23456789012, 'holsa', 'holwfewfew', 370458963, 'hola2', '1234556', 2),
+(5, 44923092, 23456789012, 'adminsoy', 'notngo', 370502044, 'admin', '12345', 1);
 
 --
 -- Índices para tablas volcadas
@@ -272,7 +319,8 @@ ALTER TABLE `clientes`
 --
 ALTER TABLE `contratacion`
   ADD PRIMARY KEY (`idContratacion`),
-  ADD KEY `idUsuario` (`idUsuario`);
+  ADD KEY `idUsuario` (`idUsuarioAdmin`),
+  ADD KEY `idUsuarioEmpleado` (`idUsuarioEmpleado`);
 
 --
 -- Indices de la tabla `detallefactura`
@@ -380,13 +428,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `clientes`
 --
 ALTER TABLE `clientes`
-  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idCliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `contratacion`
 --
 ALTER TABLE `contratacion`
-  MODIFY `idContratacion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idContratacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `detallefactura`
@@ -410,7 +458,7 @@ ALTER TABLE `fabricacion`
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `idFactura` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `materiasprimas`
@@ -422,7 +470,7 @@ ALTER TABLE `materiasprimas`
 -- AUTO_INCREMENT de la tabla `mediopago`
 --
 ALTER TABLE `mediopago`
-  MODIFY `idMedioPago` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idMedioPago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
@@ -434,7 +482,7 @@ ALTER TABLE `productos`
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `remitoproveedor`
@@ -458,7 +506,7 @@ ALTER TABLE `tipoestadomateriaprima`
 -- AUTO_INCREMENT de la tabla `tipofactura`
 --
 ALTER TABLE `tipofactura`
-  MODIFY `idTipoFactura` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTipoFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `tipousuario`
@@ -470,7 +518,7 @@ ALTER TABLE `tipousuario`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restricciones para tablas volcadas
@@ -480,7 +528,8 @@ ALTER TABLE `usuarios`
 -- Filtros para la tabla `contratacion`
 --
 ALTER TABLE `contratacion`
-  ADD CONSTRAINT `contratacion_ibfk_1` FOREIGN KEY (`idUsuario`) REFERENCES `usuarios` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `contratacion_ibfk_1` FOREIGN KEY (`idUsuarioAdmin`) REFERENCES `usuarios` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `contratacion_ibfk_2` FOREIGN KEY (`idUsuarioEmpleado`) REFERENCES `usuarios` (`idUsuario`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `detallefactura`
