@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-05-2023 a las 05:21:01
+-- Tiempo de generación: 02-06-2023 a las 22:29:22
 -- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.0.28
+-- Versión de PHP: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -63,7 +63,14 @@ CREATE TABLE `contratacion` (
 
 INSERT INTO `contratacion` (`idContratacion`, `fechaInicioContratacion`, `fechaFinContratacion`, `idUsuarioAdmin`, `idUsuarioEmpleado`) VALUES
 (1, '2023-05-02', NULL, 3, 4),
-(2, '2023-05-01', '2023-05-31', 5, 3);
+(2, '2023-05-01', '2023-05-31', 5, 3),
+(3, '2023-05-30', NULL, 6, 9),
+(4, '2023-05-30', NULL, 6, 10),
+(5, '2023-05-30', NULL, 6, 11),
+(6, '2023-06-01', NULL, 6, 12),
+(7, '2023-06-01', NULL, 6, 13),
+(8, '2023-06-01', NULL, 6, 14),
+(9, '2023-06-01', NULL, 6, 15);
 
 -- --------------------------------------------------------
 
@@ -103,8 +110,20 @@ CREATE TABLE `detalleremitoproveedor` (
 CREATE TABLE `fabricacion` (
   `idFabricacion` int(11) NOT NULL,
   `idProducto` int(11) NOT NULL,
-  `idMateriaPrima` int(11) NOT NULL
+  `idMateriaPrima` int(11) NOT NULL,
+  `CantidadMateriaPrima` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `fabricacion`
+--
+
+INSERT INTO `fabricacion` (`idFabricacion`, `idProducto`, `idMateriaPrima`, `CantidadMateriaPrima`) VALUES
+(1, 1, 2, 4),
+(2, 1, 3, 0.2),
+(3, 2, 3, 0.2),
+(4, 2, 4, 0.9),
+(6, 1, 4, 0.5);
 
 -- --------------------------------------------------------
 
@@ -123,6 +142,13 @@ CREATE TABLE `factura` (
   `idUsuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `factura`
+--
+
+INSERT INTO `factura` (`idFactura`, `numeroFactura`, `fechaEmisionFactura`, `idTipoFactura`, `precioTotal`, `idMedioPago`, `idCliente`, `idUsuario`) VALUES
+(9, 12345, '2023-05-02', 1, 1200.00, 1, 2, 4);
+
 -- --------------------------------------------------------
 
 --
@@ -134,10 +160,20 @@ CREATE TABLE `materiasprimas` (
   `nombreMateriaPrima` varchar(80) NOT NULL,
   `descripcionMateriaPrima` varchar(80) NOT NULL,
   `precioUnitarioMateriaPrima` decimal(10,2) NOT NULL,
-  `stockMateriaPrima` int(11) NOT NULL,
-  `fechaVencimientoMateriaPrima` date NOT NULL,
-  `stockMinimoMateriaPrima` int(11) NOT NULL
+  `stockMateriaPrima` float NOT NULL,
+  `stockMinimoMateriaPrima` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `materiasprimas`
+--
+
+INSERT INTO `materiasprimas` (`idMateriaPrima`, `nombreMateriaPrima`, `descripcionMateriaPrima`, `precioUnitarioMateriaPrima`, `stockMateriaPrima`, `stockMinimoMateriaPrima`) VALUES
+(1, 'Harina', 'en kg', 300.00, 60, 10),
+(2, 'Huevo', 'unidades', 3.00, 0, 3000),
+(3, 'Manteca', 'kg', 230.00, 0, 344),
+(4, 'Aceite y agua', 'litro', 450.00, 0, 4444),
+(5, 'Avena', 'kg', 400.00, 0, 3000);
 
 -- --------------------------------------------------------
 
@@ -168,10 +204,17 @@ CREATE TABLE `productos` (
   `nombreProducto` varchar(80) NOT NULL,
   `descripcionProducto` varchar(80) NOT NULL,
   `precioUnitarioProducto` decimal(10,2) NOT NULL,
-  `stockProducto` int(11) NOT NULL,
-  `fechaVencimientoProducto` date NOT NULL,
-  `stockMinimoProducto` int(11) NOT NULL
+  `stockProducto` float NOT NULL,
+  `stockMinimoProducto` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` (`idProducto`, `nombreProducto`, `descripcionProducto`, `precioUnitarioProducto`, `stockProducto`, `stockMinimoProducto`) VALUES
+(1, 'Chipa', 'en kg', 300.00, 60, 10),
+(2, 'Pan de leche', 'unidades', 300.00, 0, 3000);
 
 -- --------------------------------------------------------
 
@@ -193,7 +236,8 @@ CREATE TABLE `proveedores` (
 --
 
 INSERT INTO `proveedores` (`idProveedor`, `nombreProveedor`, `CUIL_CUIT`, `DNI`, `telefonoProveedor`, `domicilioProveedor`) VALUES
-(1, 'Brenda', 27458963125, 45896312, 2147483647, 'republica');
+(1, 'Brenda', 27458963125, 45896312, 2147483647, 'republica'),
+(2, 'Azul Coronel', 33555555553, 55555555, 2323, 'conejos');
 
 -- --------------------------------------------------------
 
@@ -302,7 +346,17 @@ CREATE TABLE `usuarios` (
 INSERT INTO `usuarios` (`idUsuario`, `DNI`, `CUIL_CUIT`, `nombre`, `domicilio`, `telefono`, `usuario`, `clave`, `idTipoUsuario`) VALUES
 (3, 44923092, 27449230928, 'brenda', 'no tengo', 0, 'bren', '1234', 2),
 (4, 45678901, 23456789012, 'holsa', 'holwfewfew', 370458963, 'hola2', '1234556', 2),
-(5, 44923092, 23456789012, 'adminsoy', 'notngo', 370502044, 'admin', '12345', 1);
+(5, 44923092, 23456789012, 'adminsoy', 'notngo', 370502044, 'admin', '12345', 1),
+(6, 44444444, 44444444444, 'Darío Coronel', 'Pauzier', 6666, 'DarioDario7', 'DarioDario7', 1),
+(7, 88888888, 88888888888, 'B', 'B', 66666, 'BelenBelen7', 'BelenBelen7', 2),
+(8, 99999999, 99999999999, 'Lore', 'L', 55555, 'LoreLore7', 'LoreLore7', 2),
+(9, 89898989, 89898989899, 'Mel', 'mel', 44544, 'MelaMela7', 'MelaMela7', 2),
+(10, 87878787, 87878787877, 'Agustin', 'Ag', 44432, 'AgusAgus7', 'AgusAgus7', 2),
+(11, 65656565, 65656565656, 'Sonia', '34334', 34343, 'SoniaSonia7', 'SoniaSonia7', 2),
+(12, 34343434, 55343434345, 'fff', 'fff', 4545, 'FFFF5555', 'FFFF5555', 2),
+(13, 77777777, 55777777775, 'rrr', 'rrr', 777, 'RRRR7777', 'RRRR7777', 2),
+(14, 45464546, 45454645465, 'gggg', 'gggg', 6666, 'GGGG6666', 'GGGG6666', 2),
+(15, 32323232, 32323232323, 'Mayten Leila Avalos', 'Paraguay', 4444, 'MaytenL', 'Mayten04', 2);
 
 --
 -- Índices para tablas volcadas
@@ -434,7 +488,7 @@ ALTER TABLE `clientes`
 -- AUTO_INCREMENT de la tabla `contratacion`
 --
 ALTER TABLE `contratacion`
-  MODIFY `idContratacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `idContratacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `detallefactura`
@@ -452,19 +506,19 @@ ALTER TABLE `detalleremitoproveedor`
 -- AUTO_INCREMENT de la tabla `fabricacion`
 --
 ALTER TABLE `fabricacion`
-  MODIFY `idFabricacion` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idFabricacion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `factura`
 --
 ALTER TABLE `factura`
-  MODIFY `idFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idFactura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `materiasprimas`
 --
 ALTER TABLE `materiasprimas`
-  MODIFY `idMateriaPrima` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idMateriaPrima` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `mediopago`
@@ -476,13 +530,13 @@ ALTER TABLE `mediopago`
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idProducto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `proveedores`
 --
 ALTER TABLE `proveedores`
-  MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `remitoproveedor`
@@ -518,7 +572,7 @@ ALTER TABLE `tipousuario`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `idUsuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Restricciones para tablas volcadas
