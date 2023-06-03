@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2023 a las 22:29:22
+-- Tiempo de generación: 03-06-2023 a las 14:17:31
 -- Versión del servidor: 10.4.28-MariaDB
--- Versión de PHP: 8.2.4
+-- Versión de PHP: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -100,6 +100,17 @@ CREATE TABLE `detalleremitoproveedor` (
   `idMateriaPrima` int(11) NOT NULL,
   `idTipoEstadoMateriaPrima` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `detalleremitoproveedor`
+--
+
+INSERT INTO `detalleremitoproveedor` (`idDetalleRemitoProveedor`, `cantidad`, `fechaEntregaProducto`, `idRemito`, `idMateriaPrima`, `idTipoEstadoMateriaPrima`) VALUES
+(1, 2023, '0000-00-00', 1, 1, 1),
+(2, 10, '2023-05-02', 1, 1, 1),
+(3, 10, '2023-05-02', 1, 1, 1),
+(4, 10, '2023-05-02', 1, 1, 1),
+(5, 10, '2023-05-02', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -252,6 +263,23 @@ CREATE TABLE `remitoproveedor` (
   `idProveedor` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `remitoproveedor`
+--
+
+INSERT INTO `remitoproveedor` (`idRemito`, `numeroRemito`, `fechaEmisionRemito`, `idProveedor`) VALUES
+(1, 2345, '2023-05-02', 1),
+(2, 2345, '2023-05-02', 1),
+(3, 2345, '2023-05-02', 1),
+(4, 2345, '2023-05-02', 1),
+(5, 2345, '2023-05-02', 1),
+(6, 2345, '2023-05-02', 1),
+(7, 2345, '2023-05-02', 1),
+(8, 1, '2023-05-02', 1),
+(9, 1, '2023-05-02', 1),
+(10, 1, '2023-05-02', 1),
+(11, 1, '2023-05-02', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -282,6 +310,14 @@ CREATE TABLE `tipoestadomateriaprima` (
   `idTipoEstadoMateriaPrima` int(11) NOT NULL,
   `descripcionEstadoMateriaPrima` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `tipoestadomateriaprima`
+--
+
+INSERT INTO `tipoestadomateriaprima` (`idTipoEstadoMateriaPrima`, `descripcionEstadoMateriaPrima`) VALUES
+(1, 'integro'),
+(2, 'defectuoso');
 
 -- --------------------------------------------------------
 
@@ -500,7 +536,7 @@ ALTER TABLE `detallefactura`
 -- AUTO_INCREMENT de la tabla `detalleremitoproveedor`
 --
 ALTER TABLE `detalleremitoproveedor`
-  MODIFY `idDetalleRemitoProveedor` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idDetalleRemitoProveedor` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `fabricacion`
@@ -542,7 +578,7 @@ ALTER TABLE `proveedores`
 -- AUTO_INCREMENT de la tabla `remitoproveedor`
 --
 ALTER TABLE `remitoproveedor`
-  MODIFY `idRemito` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idRemito` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT de la tabla `tipoempleado`
@@ -554,7 +590,7 @@ ALTER TABLE `tipoempleado`
 -- AUTO_INCREMENT de la tabla `tipoestadomateriaprima`
 --
 ALTER TABLE `tipoestadomateriaprima`
-  MODIFY `idTipoEstadoMateriaPrima` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `idTipoEstadoMateriaPrima` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `tipofactura`
