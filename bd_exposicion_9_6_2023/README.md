@@ -1,1 +1,2 @@
-# Esta es la base de datos de la exposicion
+# panaderia_bd Exposición
+Es la base de datos de la exposicion
